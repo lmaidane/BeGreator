@@ -1,0 +1,33 @@
+Data scientist,Data analyst,Data Engineer,Machine Learning Engineer,Artificial Intelligence Engineer,Big Data Architect,Business Analyst,Python Developer,Database Developer,Database Administrator
+,,,,,,,,,
+Skills,Skills,Skills,Skills,Skills,Skills,Skills,Skills,Skills,Skills
+,,,,,,,,,
+Analytics,AI,Analytics,Big data,Python,SQL,Functional analysis,Python,Oracle,Oracle
+Machine learning,Analytics,Python,Python,Machine learning,Cloud,BPMN,Rest API,SQL,SQL
+Python,Python,SQL,Machine learning,Data analytics,BigQuery,Agile,Angular,PL/SQL,MongoDB
+R,R,Cloud,Analytics,Cloud,ETL,UML,Django,NoSQL,NoSQL
+SQL,SQL,ETL,Deep learning,Java,Python,Process modelling,Cloud,Agile,Microsoft
+Statistics,ETL,Azure,Java,AI,Big data,Business analysis,JavaScript,XML,BI
+BI,Statistics,AWS,AI,JavaScript,AWS,Scrum,Azure,BI,MySQL
+Spark,Data analytics,BI,SQL,DevOps,Azure,Drupal,NoSQL,Unix,Azure
+AI,SAS,Spark,Spark,C/C++,Hadoop,Microsoft,Flask,Data administration,Hadoop
+Deep learning,Oracle,Data manipulation,PyTorch,SQL,Scala,e-commerce,Agile,Java,Bash
+Java,MATLAB,Kafka,C++,PyTorch,JIRA,Oracle,SQL,C-Sharp,Perl
+Data analytics,BI,Hadoop,Tensorflow,Kotlin,Cassandra,JavaScript,C++,Microsoft,Ruby
+SAS,Data visualization,IoT,Kafka,Redis,Spark,React,AWS,Data modelling,Linux
+MATLAB,Data warehouse,Hive,R,Flask,Redis,SQL,Pyramid,Azure,DevOps
+Scala,Big data,,Statistics,Spark,Confluence,CSS,Excel,,
+Microsoft,SAP,Challenges,Pandas,Docker,Agile,Statistics,Docker,Challenges,Challenges
+Numpy,Data mining,,Docker,Tensorflow,R,Adobe,,,
+Pandas,PL/SQL,"They are tasked with transforming data into a format that can be easily analyzed. They do this by developing, maintaining, and testing infrastructures for data generation",Numpy,Hadoop,Spring,JIRA,Challenges,"Having a database to store details of user's likings, improves long-term relationship with users",Maintains a successful database environment by performing all related activities to keep the data secure
+,Machine learning,"Clean, aggregate, and organize data from disparate sources and transfer it to data warehouses",Data mining,AWS,RedShift,Salesforce,,Expanding databases and improving existing databases to increase performance and efficiency in business,Installing upgrades and patches to fix program bugs and ensuring that the database works properly
+Challenges,,,,Kubernetes,API,CRM,"For developing even the most complex websites, and web apps",,
+,Challenges,,Challenges,,Maven,UX,To extract large amount of data e.g. job scrappings,,
+Developing the algorithms and testing on the real data sets and fine tuning the algorithms to ensure business objectives,,,,Challenges,,Angular,"For all AI, ML, data science related works",,
+Design data modeling processes to create algorithms and predictive models and perform custom analysis,Manipulate large data sets and use them to identify trends and reach meaningful conclusions to inform strategic business decisions,,Design machine learning models by implementing appropriate ML algorithms and tools to Develop machine learning applications according to requirements,,Challenges,HTML,,,
+To turn massive data sets produced by industrial operations into insights,"Data analytics to understand the customer needs and buying habits to predict trends, recommend new products, and boost their business",,,"AI Engineers build, test, and deploy AI models, as well as maintain the underlying AI infrastructure",,Analytics,,,
+,Analyze the data and present the data with more business perspectives,,,Understanding business objectives and developing models according to requirements,"Design, create, and manage an organization’s data architecture",,,,
+,,,,,"Big Data has the capacity to assemble, store, access massive measures of data so that better choice of decisions can be made with clients, providers, employees, logistics, and framework",Challenges,,,
+,,,,,,,,,
+,,,,,,"Analyse the structure of a business, how it uses technology and what its goals are",,,
+,,,,,,Business analysts focuses on where your business meets the customer,,,
