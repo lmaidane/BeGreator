@@ -3,10 +3,10 @@ from geopy.geocoders import Nominatim
 from geopy.distance import great_circle
 
 #Reading the job information
-job_information_data=pd.read_csv("Sample Job descriptions - Recruiter test.csv")
+job_information_data=pd.read_csv("Sample job descriptions - testing.csv")
 job_information_dataframe=pd.DataFrame(job_information_data)
 
-job_desc_no='Job desc 15'
+job_desc_no='Job desc 1'
 single_company_data=job_information_dataframe[job_desc_no]
 single_company_data=list(single_company_data)
 
@@ -34,7 +34,7 @@ job_tech_stack=single_company_data[8]
 tech_stack=list(job_tech_stack.split(" ; "))
 
 #Reading the Profiles information
-datafilename = "Sample profiles - Recruiter test.csv"
+datafilename = "Sample profiles - testing.csv"
 job_information_data=pd.read_csv(datafilename)
 job_information_dataframe=pd.DataFrame(job_information_data)
 
@@ -62,6 +62,7 @@ not_matching_daily_rate=[]
 matching_tech_objectives=[]
 not_matching_tech_objectives=[]
 profile=[]
+name=[]
 
 #loop runs for each profile
 for i in range(1,ncol):
@@ -70,6 +71,10 @@ for i in range(1,ncol):
     single_profile_data=list(single_profile_data)
     prof="Profile {}".format(i)
     profile.append(prof)
+    
+    #name
+    candidate_name=single_profile_data[8]
+    name.append(candidate_name)
     
     #title matching
     title=single_profile_data[0]
@@ -101,7 +106,7 @@ for i in range(1,ncol):
                 lan=job_languages[j]
                 lang=lang+job_languages[j]+' '
         if(lan==" "):
-            not_lan=not_lan+job_languages[j]
+            not_lan=not_lan+job_languages[j]+" "
     not_matching_languages_list.append(not_lan)
     matching_languages_list.append(lang)
             
@@ -228,11 +233,12 @@ for i in range(1,ncol):
             
     count[i-1]=count[i-1]+counts
 
-zipped = list(zip(*sorted(zip(count,profile,matching_title_list,not_matching_title_list,matching_languages_list,not_matching_languages_list,matching_skills_list,not_matching_skills_list,matching_work_regime,not_matching_work_regime,matching_location,not_matching_location,matching_industry,not_matching_industry,matching_daily_rate,not_matching_daily_rate,matching_tech_objectives,not_matching_tech_objectives))))
-count1,profile1,matching_title_list1,not_matching_title_list1,matching_languages_list1,not_matching_languages_list1,matching_skills_list1,not_matching_skills_list1,matching_work_regime1,not_matching_work_regime1,matching_location1,not_matching_location1,matching_industry1,not_matching_industry1,matching_daily_rate1,not_matching_daily_rate1,matching_tech_objectives1,not_matching_tech_objectives1 = [ list(tuple) for tuple in zipped]
+zipped = list(zip(*sorted(zip(count,profile,name,matching_title_list,not_matching_title_list,matching_languages_list,not_matching_languages_list,matching_skills_list,not_matching_skills_list,matching_work_regime,not_matching_work_regime,matching_location,not_matching_location,matching_industry,not_matching_industry,matching_daily_rate,not_matching_daily_rate,matching_tech_objectives,not_matching_tech_objectives))))
+count1,profile1,name1,matching_title_list1,not_matching_title_list1,matching_languages_list1,not_matching_languages_list1,matching_skills_list1,not_matching_skills_list1,matching_work_regime1,not_matching_work_regime1,matching_location1,not_matching_location1,matching_industry1,not_matching_industry1,matching_daily_rate1,not_matching_daily_rate1,matching_tech_objectives1,not_matching_tech_objectives1 = [ list(tuple) for tuple in zipped]
 
 count1.reverse()
 profile1.reverse()
+name1.reverse()
 matching_title_list1.reverse()
 not_matching_title_list1.reverse()
 matching_languages_list1.reverse()
@@ -276,6 +282,7 @@ for i in range(len(profile)-1):
 
 job_data=pd.DataFrame({'Job desc':job_desc,
            'Profile':profile1,
+           'Name':name1,
            'Score':count1,
            'Matching title':matching_title_list1,
            'Not matching title':not_matching_title_list1,
@@ -295,4 +302,4 @@ job_data=pd.DataFrame({'Job desc':job_desc,
            'Not matching tech objectives':not_matching_tech_objectives1})
 
 #storing in csv file
-job_data.to_csv("Results for data engineer job desc.csv",mode='a',header=False,index=0)
+job_data.to_csv("Results for data engineer job desc - testing.csv",mode='a',header=False,index=0)

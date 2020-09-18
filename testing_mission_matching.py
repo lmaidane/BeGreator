@@ -3,12 +3,14 @@ from geopy.geocoders import Nominatim
 from geopy.distance import great_circle
 
 #Reading the job information
-job_information_data=pd.read_csv("Sample profiles - Recruiter test.csv")
+job_information_data=pd.read_csv("Sample profiles - testing.csv")
 job_information_dataframe=pd.DataFrame(job_information_data)
 
-profile_no='Profile 15'
+profile_no='Profile 1'
 single_company_data=job_information_dataframe[profile_no]
 single_company_data=list(single_company_data)
+
+name=single_company_data[8]
 
 job_titles=single_company_data[0]
 job_title = list(job_titles.split("; "))
@@ -33,7 +35,7 @@ job_daily_rate=single_company_data[6]
 job_daily_rate=int(job_daily_rate)
 
 #Reading the Profiles information
-datafilename = "Sample Job descriptions - Recruiter test.csv"
+datafilename = "Sample job descriptions - testing.csv"
 job_information_data=pd.read_csv(datafilename)
 job_information_dataframe=pd.DataFrame(job_information_data)
 
@@ -98,7 +100,7 @@ for i in range(1,ncol):
                 lan=languages[j]
                 lang=lang+languages[j]+' '
         if(lan==" "):
-            not_lan=not_lan+languages[j]
+            not_lan=not_lan+languages[j]+" "
     not_matching_languages_list.append(not_lan)
     matching_languages_list.append(lang)
             
@@ -265,7 +267,8 @@ print(not_matching_tech_objectives1)
 
 profile=[]
 profile.append(profile_no)
-for i in range(len(job_desc)-1):
+profile.append(name)
+for i in range(len(job_desc)-2):
     profile.append(' ')
 
 job_data=pd.DataFrame({'Profile':profile,
@@ -289,4 +292,4 @@ job_data=pd.DataFrame({'Profile':profile,
            'Not matching tech objectives':not_matching_tech_objectives1})
 
 #storing in csv file
-job_data.to_csv("Results for data engineer profile.csv",mode='a',header=False,index=0)
+job_data.to_csv("Results for data engineer profile - testing.csv",mode='a',header=False,index=0)
