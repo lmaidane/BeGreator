@@ -3,7 +3,7 @@ from geopy.geocoders import Nominatim
 from geopy.distance import great_circle
 
 #Reading the job information
-job_information_data=pd.read_csv("Sample job descriptions - testing.csv")
+job_information_data=pd.read_csv("Sample JDs_data scientist - testing.csv")
 job_information_dataframe=pd.DataFrame(job_information_data)
 
 job_desc_no='Job desc 1'
@@ -33,8 +33,14 @@ job_daily_rate=int(job_daily_rate)
 job_tech_stack=single_company_data[8]
 tech_stack=list(job_tech_stack.split(" ; "))
 
+years=single_company_data[9]
+job_years=list(years.split(" ; "))
+
+essential_skill=single_company_data[10]
+job_essential_skills=list(essential_skill.split(" ; "))
+
 #Reading the Profiles information
-datafilename = "Sample profiles - testing.csv"
+datafilename = "Sample profiles_data scientist - testing.csv"
 job_information_data=pd.read_csv(datafilename)
 job_information_dataframe=pd.DataFrame(job_information_data)
 
@@ -64,10 +70,91 @@ not_matching_tech_objectives=[]
 profile=[]
 name=[]
 
+cond_count1=[]
+profile1=[]
+name1=[]
+matching_title_list1=[]
+not_matching_title_list1=[]
+matching_languages_list1=[]
+not_matching_languages_list1=[]
+matching_skills_list1=[]
+not_matching_skills_list1=[]
+matching_work_regime1=[]
+not_matching_work_regime1=[]
+matching_location1=[]
+not_matching_location1=[]
+matching_industry1=[]
+not_matching_industry1=[]
+matching_daily_rate1=[]
+not_matching_daily_rate1=[]
+matching_tech_objectives1=[]
+not_matching_tech_objectives1=[]
+
+cond_count2=[]
+profile2=[]
+name2=[]
+matching_title_list2=[]
+not_matching_title_list2=[]
+matching_languages_list2=[]
+not_matching_languages_list2=[]
+matching_skills_list2=[]
+not_matching_skills_list2=[]
+matching_work_regime2=[]
+not_matching_work_regime2=[]
+matching_location2=[]
+not_matching_location2=[]
+matching_industry2=[]
+not_matching_industry2=[]
+matching_daily_rate2=[]
+not_matching_daily_rate2=[]
+matching_tech_objectives2=[]
+not_matching_tech_objectives2=[]
+
+cond_count3=[]
+profile3=[]
+name3=[]
+matching_title_list3=[]
+not_matching_title_list3=[]
+matching_languages_list3=[]
+not_matching_languages_list3=[]
+matching_skills_list3=[]
+not_matching_skills_list3=[]
+matching_work_regime3=[]
+not_matching_work_regime3=[]
+matching_location3=[]
+not_matching_location3=[]
+matching_industry3=[]
+not_matching_industry3=[]
+matching_daily_rate3=[]
+not_matching_daily_rate3=[]
+matching_tech_objectives3=[]
+not_matching_tech_objectives3=[]
+
+cond_count4=[]
+profile4=[]
+name4=[]
+matching_title_list4=[]
+not_matching_title_list4=[]
+matching_languages_list4=[]
+not_matching_languages_list4=[]
+matching_skills_list4=[]
+not_matching_skills_list4=[]
+matching_work_regime4=[]
+not_matching_work_regime4=[]
+matching_location4=[]
+not_matching_location4=[]
+matching_industry4=[]
+not_matching_industry4=[]
+matching_daily_rate4=[]
+not_matching_daily_rate4=[]
+matching_tech_objectives4=[]
+not_matching_tech_objectives4=[]
+
 #loop runs for each profile
 for i in range(1,ncol):
 
     single_profile_data=job_information_dataframe['Profile {}'.format(i)]
+    print('Profile {}'.format(i))
     single_profile_data=list(single_profile_data)
     prof="Profile {}".format(i)
     profile.append(prof)
@@ -98,6 +185,7 @@ for i in range(1,ncol):
     counts=0
     lang=''
     not_lan=''
+    lan_score=10
     for j in range(len(job_languages)):
         lan=" "
         for k in range(len(languages)):
@@ -109,8 +197,39 @@ for i in range(1,ncol):
             not_lan=not_lan+job_languages[j]+" "
     not_matching_languages_list.append(not_lan)
     matching_languages_list.append(lang)
+    if(counts==(len(job_languages)*3)):
+        lan_score=0
+    else:
+        lan_score=1
             
     count[i-1]=count[i-1]+counts
+    
+    #essential_skills
+    skill=single_profile_data[1]
+    skills=list(skill.split(" ; "))
+    level=single_profile_data[2]
+    levels=list(level.split("; "))
+    counts=0
+    ess_skill_score=20
+    skill_string=''
+    not_skill_string=''
+    
+    for j,k in zip(job_essential_skills,job_years):
+        k=int(k)
+        current=''
+        for l,m in zip(skills,levels):
+            m=int(m)
+            if(j==l and k<=m):
+                counts=counts+7
+                skill_string=skill_string+j+' '+str(m)+' '
+                current=j+' '+str(m)
+        if(current==''):
+            not_skill_string=not_skill_string+j+' '+str(k)+' '
+
+    if(counts==(len(job_essential_skills)*7)):
+        ess_skill_score=0
+    else:
+        ess_skill_score=1
     
     #skills
     skill=single_profile_data[1]
@@ -126,7 +245,7 @@ for i in range(1,ncol):
         current=''
         for l,m in zip(skills,levels):
             m=int(m)
-            if(j==l and (k-1)<=m):
+            if(j==l and k<=m):
                 counts=counts+7
                 skill_string=skill_string+j+' '+str(m)+' '
                 current=j+' '+str(m)
@@ -232,31 +351,436 @@ for i in range(1,ncol):
     not_matching_tech_objectives.append(not_skill_string)
             
     count[i-1]=count[i-1]+counts
+    
+    if(lan_score==0 and ess_skill_score==0):
+        cond_count1.append(count[i-1])
+        profile1.append(profile[i-1])
+        name1.append(name[i-1])
+        matching_title_list1.append(matching_title_list[i-1])
+        not_matching_title_list1.append(not_matching_title_list[i-1])
+        matching_languages_list1.append(matching_languages_list[i-1])
+        not_matching_languages_list1.append(not_matching_languages_list[i-1])
+        matching_skills_list1.append(matching_skills_list[i-1])
+        not_matching_skills_list1.append(not_matching_skills_list[i-1])
+        matching_work_regime1.append(matching_work_regime[i-1])
+        not_matching_work_regime1.append(not_matching_work_regime[i-1])
+        matching_location1.append(matching_location[i-1])
+        not_matching_location1.append(not_matching_location[i-1])
+        matching_industry1.append(matching_industry[i-1])
+        not_matching_industry1.append(not_matching_industry[i-1])
+        matching_daily_rate1.append(matching_daily_rate[i-1])
+        not_matching_daily_rate1.append(not_matching_daily_rate[i-1])
+        matching_tech_objectives1.append(matching_tech_objectives[i-1])
+        not_matching_tech_objectives1.append(not_matching_tech_objectives[i-1])
+        
+    elif(lan_score==0 and ess_skill_score!=0):
+        cond_count2.append(count[i-1])
+        profile2.append(profile[i-1])
+        name2.append(name[i-1])
+        matching_title_list2.append(matching_title_list[i-1])
+        not_matching_title_list2.append(not_matching_title_list[i-1])
+        matching_languages_list2.append(matching_languages_list[i-1])
+        not_matching_languages_list2.append(not_matching_languages_list[i-1])
+        matching_skills_list2.append(matching_skills_list[i-1])
+        not_matching_skills_list2.append(not_matching_skills_list[i-1])
+        matching_work_regime2.append(matching_work_regime[i-1])
+        not_matching_work_regime2.append(not_matching_work_regime[i-1])
+        matching_location2.append(matching_location[i-1])
+        not_matching_location2.append(not_matching_location[i-1])
+        matching_industry2.append(matching_industry[i-1])
+        not_matching_industry2.append(not_matching_industry[i-1])
+        matching_daily_rate2.append(matching_daily_rate[i-1])
+        not_matching_daily_rate2.append(not_matching_daily_rate[i-1])
+        matching_tech_objectives2.append(matching_tech_objectives[i-1])
+        not_matching_tech_objectives2.append(not_matching_tech_objectives[i-1])  
+        
+    elif(lan_score!=0 and ess_skill_score==0):
+        cond_count3.append(count[i-1])
+        profile3.append(profile[i-1])
+        name3.append(name[i-1])
+        matching_title_list3.append(matching_title_list[i-1])
+        not_matching_title_list3.append(not_matching_title_list[i-1])
+        matching_languages_list3.append(matching_languages_list[i-1])
+        not_matching_languages_list3.append(not_matching_languages_list[i-1])
+        matching_skills_list3.append(matching_skills_list[i-1])
+        not_matching_skills_list3.append(not_matching_skills_list[i-1])
+        matching_work_regime3.append(matching_work_regime[i-1])
+        not_matching_work_regime3.append(not_matching_work_regime[i-1])
+        matching_location3.append(matching_location[i-1])
+        not_matching_location3.append(not_matching_location[i-1])
+        matching_industry3.append(matching_industry[i-1])
+        not_matching_industry3.append(not_matching_industry[i-1])
+        matching_daily_rate3.append(matching_daily_rate[i-1])
+        not_matching_daily_rate3.append(not_matching_daily_rate[i-1])
+        matching_tech_objectives3.append(matching_tech_objectives[i-1])
+        not_matching_tech_objectives3.append(not_matching_tech_objectives[i-1])  
+        
+    else:          
+        cond_count4.append(count[i-1])
+        profile4.append(profile[i-1])
+        name4.append(name[i-1])
+        matching_title_list4.append(matching_title_list[i-1])
+        not_matching_title_list4.append(not_matching_title_list[i-1])
+        matching_languages_list4.append(matching_languages_list[i-1])
+        not_matching_languages_list4.append(not_matching_languages_list[i-1])
+        matching_skills_list4.append(matching_skills_list[i-1])
+        not_matching_skills_list4.append(not_matching_skills_list[i-1])
+        matching_work_regime4.append(matching_work_regime[i-1])
+        not_matching_work_regime4.append(not_matching_work_regime[i-1])
+        matching_location4.append(matching_location[i-1])
+        not_matching_location4.append(not_matching_location[i-1])
+        matching_industry4.append(matching_industry[i-1])
+        not_matching_industry4.append(not_matching_industry[i-1])
+        matching_daily_rate4.append(matching_daily_rate[i-1])
+        not_matching_daily_rate4.append(not_matching_daily_rate[i-1])
+        matching_tech_objectives4.append(matching_tech_objectives[i-1])
+        not_matching_tech_objectives4.append(not_matching_tech_objectives[i-1])  
+    
+cond_count5=[]
+profile5=[]
+name5=[]
+matching_title_list5=[]
+not_matching_title_list5=[]
+matching_languages_list5=[]
+not_matching_languages_list5=[]
+matching_skills_list5=[]
+not_matching_skills_list5=[]
+matching_work_regime5=[]
+not_matching_work_regime5=[]
+matching_location5=[]
+not_matching_location5=[]
+matching_industry5=[]
+not_matching_industry5=[]
+matching_daily_rate5=[]
+not_matching_daily_rate5=[]
+matching_tech_objectives5=[]
+not_matching_tech_objectives5=[]
+ 
+if(lan_score==0 and ess_skill_score==0):       
+    zipped = list(zip(*sorted(zip(cond_count1,profile1,name1,matching_title_list1,not_matching_title_list1,matching_languages_list1,not_matching_languages_list1,matching_skills_list1,not_matching_skills_list1,matching_work_regime1,not_matching_work_regime1,matching_location1,not_matching_location1,matching_industry1,not_matching_industry1,matching_daily_rate1,not_matching_daily_rate1,matching_tech_objectives1,not_matching_tech_objectives1))))
+    cond_count1_sort,profile1_sort,name1_sort,matching_title_list1_sort,not_matching_title_list1_sort,matching_languages_list1_sort,not_matching_languages_list1_sort,matching_skills_list1_sort,not_matching_skills_list1_sort,matching_work_regime1_sort,not_matching_work_regime1_sort,matching_location1_sort,not_matching_location1_sort,matching_industry1_sort,not_matching_industry1_sort,matching_daily_rate1_sort,not_matching_daily_rate1_sort,matching_tech_objectives1_sort,not_matching_tech_objectives1_sort = [ list(tuple) for tuple in zipped]
+    
+    cond_count1_sort.reverse()
+    profile1_sort.reverse()
+    name1_sort.reverse()
+    matching_title_list1_sort.reverse()
+    not_matching_title_list1_sort.reverse()
+    matching_languages_list1_sort.reverse()
+    not_matching_languages_list1_sort.reverse()
+    matching_skills_list1_sort.reverse()
+    not_matching_skills_list1_sort.reverse()
+    matching_work_regime1_sort.reverse()
+    not_matching_work_regime1_sort.reverse()
+    matching_location1_sort.reverse()
+    not_matching_location1_sort.reverse()
+    matching_industry1_sort.reverse()
+    not_matching_industry1_sort.reverse()
+    matching_daily_rate1_sort.reverse()
+    not_matching_daily_rate1_sort.reverse()
+    matching_tech_objectives1_sort.reverse()
+    not_matching_tech_objectives1_sort.reverse()
+    
+    for i in range(len(cond_count1_sort)):
+        cond_count5.append(cond_count1_sort[i])
+        
+    for i in range(len(profile1_sort)):
+        profile5.append(profile1_sort[i])
+        
+    for i in range(len(name1_sort)):
+        name5.append(name1_sort[i])
+    
+    for i in range(len(matching_title_list1_sort)):
+        matching_title_list5.append(matching_title_list1_sort[i])
+        
+    for i in range(len(not_matching_title_list1_sort)):
+        not_matching_title_list5.append(not_matching_title_list1_sort[i])
+    
+    for i in range(len(matching_languages_list1_sort)):
+        matching_languages_list5.append(matching_languages_list1_sort[i])
+    
+    for i in range(len(not_matching_languages_list1_sort)):
+        not_matching_languages_list5.append(not_matching_languages_list1_sort[i])  
+        
+    for i in range(len(matching_skills_list1_sort)):
+        matching_skills_list5.append(matching_skills_list1_sort[i])
+        
+    for i in range(len(not_matching_skills_list1_sort)):
+        not_matching_skills_list5.append(not_matching_skills_list1_sort[i])
+        
+    for i in range(len(matching_work_regime1_sort)):
+        matching_work_regime5.append(matching_work_regime1_sort[i])
+    
+    for i in range(len(not_matching_work_regime1_sort)):
+        not_matching_work_regime5.append(not_matching_work_regime1_sort[i])
+    
+    for i in range(len(matching_location1_sort)):
+        matching_location5.append(matching_location1_sort[i])
+        
+    for i in range(len(not_matching_location1_sort)):
+        not_matching_location5.append(not_matching_location1_sort[i])
+        
+    for i in range(len(matching_industry1_sort)):
+        matching_industry5.append(matching_industry1_sort[i])
+    
+    for i in range(len(not_matching_industry1_sort)):
+        not_matching_industry5.append(not_matching_industry1_sort[i])
+        
+    for i in range(len(matching_daily_rate1_sort)):
+        matching_daily_rate5.append(matching_daily_rate1_sort[i])
+        
+    for i in range(len(not_matching_daily_rate1_sort)):
+        not_matching_daily_rate5.append(not_matching_daily_rate1_sort[i])
+    
+    for i in range(len(matching_tech_objectives1_sort)):
+        matching_tech_objectives5.append(matching_tech_objectives1_sort[i])
+        
+    for i in range(len(not_matching_tech_objectives1_sort)):
+        not_matching_tech_objectives5.append(not_matching_tech_objectives1_sort[i])
 
-zipped = list(zip(*sorted(zip(count,profile,name,matching_title_list,not_matching_title_list,matching_languages_list,not_matching_languages_list,matching_skills_list,not_matching_skills_list,matching_work_regime,not_matching_work_regime,matching_location,not_matching_location,matching_industry,not_matching_industry,matching_daily_rate,not_matching_daily_rate,matching_tech_objectives,not_matching_tech_objectives))))
-count1,profile1,name1,matching_title_list1,not_matching_title_list1,matching_languages_list1,not_matching_languages_list1,matching_skills_list1,not_matching_skills_list1,matching_work_regime1,not_matching_work_regime1,matching_location1,not_matching_location1,matching_industry1,not_matching_industry1,matching_daily_rate1,not_matching_daily_rate1,matching_tech_objectives1,not_matching_tech_objectives1 = [ list(tuple) for tuple in zipped]
+if(lan_score==0 and ess_skill_score!=0):
+    zipped2 = list(zip(*sorted(zip(cond_count2,profile2,name2,matching_title_list2,not_matching_title_list2,matching_languages_list2,not_matching_languages_list2,matching_skills_list2,not_matching_skills_list2,matching_work_regime2,not_matching_work_regime2,matching_location2,not_matching_location2,matching_industry2,not_matching_industry2,matching_daily_rate2,not_matching_daily_rate2,matching_tech_objectives2,not_matching_tech_objectives2))))
+    cond_count2_sort,profile2_sort,name2_sort,matching_title_list2_sort,not_matching_title_list2_sort,matching_languages_list2_sort,not_matching_languages_list2_sort,matching_skills_list2_sort,not_matching_skills_list2_sort,matching_work_regime2_sort,not_matching_work_regime2_sort,matching_location2_sort,not_matching_location2_sort,matching_industry2_sort,not_matching_industry2_sort,matching_daily_rate2_sort,not_matching_daily_rate2_sort,matching_tech_objectives2_sort,not_matching_tech_objectives2_sort = [ list(tuple) for tuple in zipped2]
+    
+    cond_count2_sort.reverse()
+    profile2_sort.reverse()
+    name2_sort.reverse()
+    matching_title_list2_sort.reverse()
+    not_matching_title_list2_sort.reverse()
+    matching_languages_list2_sort.reverse()
+    not_matching_languages_list2_sort.reverse()
+    matching_skills_list2_sort.reverse()
+    not_matching_skills_list2_sort.reverse()
+    matching_work_regime2_sort.reverse()
+    not_matching_work_regime2_sort.reverse()
+    matching_location2_sort.reverse()
+    not_matching_location2_sort.reverse()
+    matching_industry2_sort.reverse()
+    not_matching_industry2_sort.reverse()
+    matching_daily_rate2_sort.reverse()
+    not_matching_daily_rate2_sort.reverse()
+    matching_tech_objectives2_sort.reverse()
+    not_matching_tech_objectives2_sort.reverse()
+    
+    for i in range(len(cond_count2_sort)):
+        cond_count5.append(cond_count2_sort[i])
 
-count1.reverse()
-profile1.reverse()
-name1.reverse()
-matching_title_list1.reverse()
-not_matching_title_list1.reverse()
-matching_languages_list1.reverse()
-not_matching_languages_list1.reverse()
-matching_skills_list1.reverse()
-not_matching_skills_list1.reverse()
-matching_work_regime1.reverse()
-not_matching_work_regime1.reverse()
-matching_location1.reverse()
-not_matching_location1.reverse()
-matching_industry1.reverse()
-not_matching_industry1.reverse()
-matching_daily_rate1.reverse()
-not_matching_daily_rate1.reverse()
-matching_tech_objectives1.reverse()
-not_matching_tech_objectives1.reverse()
+    for i in range(len(profile2_sort)):
+        profile5.append(profile2_sort[i])
 
-print(count1)
+    for i in range(len(name2_sort)):
+        name5.append(name2_sort[i])
+
+    for i in range(len(matching_title_list2_sort)):
+        matching_title_list5.append(matching_title_list2_sort[i])
+
+    for i in range(len(not_matching_title_list2_sort)):
+        not_matching_title_list5.append(not_matching_title_list2_sort[i])
+
+    for i in range(len(matching_languages_list2_sort)):
+        matching_languages_list5.append(matching_languages_list2_sort[i])
+
+    for i in range(len(not_matching_languages_list2_sort)):
+        not_matching_languages_list5.append(not_matching_languages_list2_sort[i])
+
+    for i in range(len(matching_skills_list2_sort)):
+        matching_skills_list5.append(matching_skills_list2_sort[i])
+
+    for i in range(len(not_matching_skills_list2_sort)):
+        not_matching_skills_list5.append(not_matching_skills_list2_sort[i])
+
+    for i in range(len(matching_work_regime2_sort)):
+        matching_work_regime5.append(matching_work_regime2_sort[i])
+
+    for i in range(len(not_matching_work_regime2_sort)):
+        not_matching_work_regime5.append(not_matching_work_regime2_sort[i])
+
+    for i in range(len(matching_location2_sort)):
+        matching_location5.append(matching_location2_sort[i])
+
+    for i in range(len(not_matching_location2_sort)):
+        not_matching_location5.append(not_matching_location2_sort[i])
+
+    for i in range(len(matching_industry2_sort)):
+        matching_industry5.append(matching_industry2_sort[i])
+
+    for i in range(len(not_matching_industry2_sort)):
+        not_matching_industry5.append(not_matching_industry2_sort[i])
+
+    for i in range(len(matching_daily_rate2_sort)):
+        matching_daily_rate5.append(matching_daily_rate2_sort[i])
+
+    for i in range(len(not_matching_daily_rate2_sort)):
+        not_matching_daily_rate5.append(not_matching_daily_rate2_sort[i])
+
+    for i in range(len(matching_tech_objectives2_sort)):
+        matching_tech_objectives5.append(matching_tech_objectives2_sort[i])
+
+    for i in range(len(not_matching_tech_objectives2_sort)):
+        not_matching_tech_objectives5.append(not_matching_tech_objectives2_sort[i])
+
+if(lan_score!=0 and ess_skill_score==0):
+    zipped3 = list(zip(*sorted(zip(cond_count3,profile3,name3,matching_title_list3,not_matching_title_list3,matching_languages_list3,not_matching_languages_list3,matching_skills_list3,not_matching_skills_list3,matching_work_regime3,not_matching_work_regime3,matching_location3,not_matching_location3,matching_industry3,not_matching_industry3,matching_daily_rate3,not_matching_daily_rate3,matching_tech_objectives3,not_matching_tech_objectives3))))
+    cond_count3_sort,profile3_sort,name3_sort,matching_title_list3_sort,not_matching_title_list3_sort,matching_languages_list3_sort,not_matching_languages_list3_sort,matching_skills_list3_sort,not_matching_skills_list3_sort,matching_work_regime3_sort,not_matching_work_regime3_sort,matching_location3_sort,not_matching_location3_sort,matching_industry3_sort,not_matching_industry3_sort,matching_daily_rate3_sort,not_matching_daily_rate3_sort,matching_tech_objectives3_sort,not_matching_tech_objectives3_sort = [ list(tuple) for tuple in zipped3]
+    
+    cond_count3_sort.reverse()
+    profile3_sort.reverse()
+    name3_sort.reverse()
+    matching_title_list3_sort.reverse()
+    not_matching_title_list3_sort.reverse()
+    matching_languages_list3_sort.reverse()
+    not_matching_languages_list3_sort.reverse()
+    matching_skills_list3_sort.reverse()
+    not_matching_skills_list3_sort.reverse()
+    matching_work_regime3_sort.reverse()
+    not_matching_work_regime3_sort.reverse()
+    matching_location3_sort.reverse()
+    not_matching_location3_sort.reverse()
+    matching_industry3_sort.reverse()
+    not_matching_industry3_sort.reverse()
+    matching_daily_rate3_sort.reverse()
+    not_matching_daily_rate3_sort.reverse()
+    matching_tech_objectives3_sort.reverse()
+    not_matching_tech_objectives3_sort.reverse()
+
+    for i in range(len(cond_count3_sort)):
+        cond_count5.append(cond_count3_sort[i])
+
+    for i in range(len(profile3_sort)):
+        profile5.append(profile3_sort[i])
+
+    for i in range(len(name3_sort)):
+        name5.append(name3_sort[i])
+
+    for i in range(len(matching_title_list3_sort)):
+        matching_title_list5.append(matching_title_list3_sort[i])
+
+    for i in range(len(not_matching_title_list3_sort)):
+        not_matching_title_list5.append(not_matching_title_list3_sort[i])
+
+    for i in range(len(matching_languages_list3_sort)):
+        matching_languages_list5.append(matching_languages_list3_sort[i])
+
+    for i in range(len(not_matching_languages_list3_sort)):
+        not_matching_languages_list5.append(not_matching_languages_list3_sort[i])
+
+    for i in range(len(matching_skills_list3_sort)):
+        matching_skills_list5.append(matching_skills_list3_sort[i])
+
+    for i in range(len(not_matching_skills_list3_sort)):
+        not_matching_skills_list5.append(not_matching_skills_list3_sort[i])
+
+    for i in range(len(matching_work_regime3_sort)):
+        matching_work_regime5.append(matching_work_regime3_sort[i])
+
+    for i in range(len(not_matching_work_regime3_sort)):
+        not_matching_work_regime5.append(not_matching_work_regime3_sort[i])
+
+    for i in range(len(matching_location3_sort)):
+        matching_location5.append(matching_location3_sort[i])
+
+    for i in range(len(not_matching_location3_sort)):
+        not_matching_location5.append(not_matching_location3_sort[i])
+
+    for i in range(len(matching_industry3_sort)):
+        matching_industry5.append(matching_industry3_sort[i])
+
+    for i in range(len(not_matching_industry3_sort)):
+        not_matching_industry5.append(not_matching_industry3_sort[i])
+
+    for i in range(len(matching_daily_rate3_sort)):
+        matching_daily_rate5.append(matching_daily_rate3_sort[i])
+
+    for i in range(len(not_matching_daily_rate3_sort)):
+        not_matching_daily_rate5.append(not_matching_daily_rate3_sort[i])
+
+    for i in range(len(matching_tech_objectives3_sort)):
+        matching_tech_objectives5.append(matching_tech_objectives3_sort[i])
+
+    for i in range(len(not_matching_tech_objectives3_sort)):
+        not_matching_tech_objectives5.append(not_matching_tech_objectives3_sort[i])
+
+if(lan_score!=0 and ess_skill_score!=0):
+    zipped4 = list(zip(*sorted(zip(cond_count4,profile4,name4,matching_title_list4,not_matching_title_list4,matching_languages_list4,not_matching_languages_list4,matching_skills_list4,not_matching_skills_list4,matching_work_regime4,not_matching_work_regime4,matching_location4,not_matching_location4,matching_industry4,not_matching_industry4,matching_daily_rate4,not_matching_daily_rate4,matching_tech_objectives4,not_matching_tech_objectives4))))
+    cond_count4_sort,profile4_sort,name4_sort,matching_title_list4_sort,not_matching_title_list4_sort,matching_languages_list4_sort,not_matching_languages_list4_sort,matching_skills_list4_sort,not_matching_skills_list4_sort,matching_work_regime4_sort,not_matching_work_regime4_sort,matching_location4_sort,not_matching_location4_sort,matching_industry4_sort,not_matching_industry4_sort,matching_daily_rate4_sort,not_matching_daily_rate4_sort,matching_tech_objectives4_sort,not_matching_tech_objectives4_sort = [ list(tuple) for tuple in zipped4]
+    
+    cond_count4_sort.reverse()
+    profile4_sort.reverse()
+    name4_sort.reverse()
+    matching_title_list4_sort.reverse()
+    not_matching_title_list4_sort.reverse()
+    matching_languages_list4_sort.reverse()
+    not_matching_languages_list4_sort.reverse()
+    matching_skills_list4_sort.reverse()
+    not_matching_skills_list4_sort.reverse()
+    matching_work_regime4_sort.reverse()
+    not_matching_work_regime4_sort.reverse()
+    matching_location4_sort.reverse()
+    not_matching_location4_sort.reverse()
+    matching_industry4_sort.reverse()
+    not_matching_industry4_sort.reverse()
+    matching_daily_rate4_sort.reverse()
+    not_matching_daily_rate4_sort.reverse()
+    matching_tech_objectives4_sort.reverse()
+    not_matching_tech_objectives4_sort.reverse()
+    
+    for i in range(len(cond_count4_sort)):
+        cond_count5.append(cond_count4_sort[i])
+
+    for i in range(len(profile4_sort)):
+        profile5.append(profile4_sort[i])
+
+    for i in range(len(name4_sort)):
+        name5.append(name4_sort[i])
+
+    for i in range(len(matching_title_list4_sort)):
+        matching_title_list5.append(matching_title_list4_sort[i])
+
+    for i in range(len(not_matching_title_list4_sort)):
+        not_matching_title_list5.append(not_matching_title_list4_sort[i])
+
+    for i in range(len(matching_languages_list4_sort)):
+        matching_languages_list5.append(matching_languages_list4_sort[i])
+
+    for i in range(len(not_matching_languages_list4_sort)):
+        not_matching_languages_list5.append(not_matching_languages_list4_sort[i])    
+
+    for i in range(len(matching_skills_list4_sort)):
+        matching_skills_list5.append(matching_skills_list4_sort[i])
+
+    for i in range(len(not_matching_skills_list4_sort)):
+        not_matching_skills_list5.append(not_matching_skills_list4_sort[i])
+ 
+    for i in range(len(matching_work_regime4_sort)):
+        matching_work_regime5.append(matching_work_regime4_sort[i])
+
+    for i in range(len(not_matching_work_regime4_sort)):
+        not_matching_work_regime5.append(not_matching_work_regime4_sort[i])
+
+    for i in range(len(matching_location4_sort)):
+        matching_location5.append(matching_location4_sort[i])
+
+    for i in range(len(not_matching_location4_sort)):
+        not_matching_location5.append(not_matching_location4_sort[i])
+
+    for i in range(len(matching_industry4_sort)):
+        matching_industry5.append(matching_industry4_sort[i])
+
+    for i in range(len(not_matching_industry4_sort)):
+        not_matching_industry5.append(not_matching_industry4_sort[i])
+
+    for i in range(len(matching_daily_rate4_sort)):
+        matching_daily_rate5.append(matching_daily_rate4_sort[i])
+ 
+    for i in range(len(not_matching_daily_rate4_sort)):
+        not_matching_daily_rate5.append(not_matching_daily_rate4_sort[i])
+
+    for i in range(len(matching_tech_objectives4_sort)):
+        matching_tech_objectives5.append(matching_tech_objectives4_sort[i])
+
+    for i in range(len(not_matching_tech_objectives4_sort)):
+        not_matching_tech_objectives5.append(not_matching_tech_objectives4_sort[i])
+    
+'''print(count1)
 print(profile1)
 print(matching_title_list1)
 print(not_matching_title_list1)
@@ -273,7 +797,7 @@ print(not_matching_industry1)
 print(matching_daily_rate1)
 print(not_matching_daily_rate1)
 print(matching_tech_objectives1)
-print(not_matching_tech_objectives1)
+print(not_matching_tech_objectives1)'''
 
 job_desc=[]
 job_desc.append(job_desc_no)
@@ -281,25 +805,25 @@ for i in range(len(profile)-1):
     job_desc.append(' ')
 
 job_data=pd.DataFrame({'Job desc':job_desc,
-           'Profile':profile1,
-           'Name':name1,
-           'Score':count1,
-           'Matching title':matching_title_list1,
-           'Not matching title':not_matching_title_list1,
-           'Matching languages':matching_languages_list1,
-           'Not matching languages':not_matching_languages_list1,
-           'Matching Skills':matching_skills_list1,
-           'Not matching Skills':not_matching_skills_list1,
-           'Matching work regime':matching_work_regime1,
-           'Not matching work regime':not_matching_work_regime1,
-           'Matching location':matching_location1,
-           'Not matching location':not_matching_location1,
-           'Matching industry':matching_industry1,
-           'Not matching industry':not_matching_industry1,
-           'Matching daily rate':matching_daily_rate1,
-           'Not matching daily rate':not_matching_daily_rate1,
-           'Matching tech objectives':matching_tech_objectives1,
-           'Not matching tech objectives':not_matching_tech_objectives1})
+           'Profile':profile5,
+           'Name':name5,
+           'Score':cond_count5,
+           'Matching title':matching_title_list5,
+           'Not matching title':not_matching_title_list5,
+           'Matching languages':matching_languages_list5,
+           'Not matching languages':not_matching_languages_list5,
+           'Matching Skills':matching_skills_list5,
+           'Not matching Skills':not_matching_skills_list5,
+           'Matching work regime':matching_work_regime5,
+           'Not matching work regime':not_matching_work_regime5,
+           'Matching location':matching_location5,
+           'Not matching location':not_matching_location5,
+           'Matching industry':matching_industry5,
+           'Not matching industry':not_matching_industry5,
+           'Matching daily rate':matching_daily_rate5,
+           'Not matching daily rate':not_matching_daily_rate5,
+           'Matching tech objectives':matching_tech_objectives5,
+           'Not matching tech objectives':not_matching_tech_objectives5})
 
 #storing in csv file
-job_data.to_csv("Results for data engineer job desc - testing.csv",mode='a',header=False,index=0)
+job_data.to_csv("Results for data scientist job desc1 - testing.csv",index=0)
